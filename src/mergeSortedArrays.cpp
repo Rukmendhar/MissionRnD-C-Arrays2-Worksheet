@@ -23,5 +23,53 @@ struct transaction {
 };
 
 struct transaction * mergeSortedArrays(struct transaction *A, int ALen, struct transaction *B, int BLen) {
-	return NULL;
+	
+	struct transaction *result = NULL;
+
+	result = (struct transaction*)malloc((sizeof(struct transaction))*(ALen+BLen));
+	int ayear[10], amonth[10], adate[10], byear[10], bmonth[10], bdate[10];
+	int index, index2, res,i=0,j=0,k=0;
+
+	for (index = 0; index < ALen; index++)
+	{
+		ayear[index] = (((A[index].date[6] - '0') * 1000) + ((A[index].date[7] - '0') * 100) + ((A[index].date[8] - '0') * 10) + (A[index].date[9] - '0'));
+		amonth[index] = (((A[index].date[3] - '0') * 10) + (A[index].date[4] - '0'));
+		adate[index] = (((A[index].date[0] - '0') * 10) + (A[index].date[1] - '0'));
+	}
+
+	for (index = 0; index < BLen; index++)
+	{
+		byear[index] = (((B[index].date[6] - '0') * 1000) + ((B[index].date[7] - '0') * 100) + ((B[index].date[8] - '0') * 10) + (B[index].date[9] - '0'));
+		bmonth[index] = (((B[index].date[3] - '0') * 10) + (B[index].date[4] - '0'));
+		bdate[index] = (((B[index].date[0] - '0') * 10) + (B[index].date[1] - '0'));
+	}
+
+	while (i < ALen && j < BLen)
+	{
+		if ((ayear>byear) || ((ayear == byear) && amonth > bmonth) || ((ayear == byear) && (amonth == bmonth) && (adate > bdate)))
+		{
+			result[k++] = B[j];
+			j++;
+		}
+		else
+		{
+			result[k++] = A[i];
+			i++;
+		}
+	}
+	while (i < ALen)
+	{
+		result[k++] = A[i];
+		i++;
+
+	}
+	while (j < BLen)
+	{
+		result[k++] = B[j];
+		j++;
+	}
+
+
+
+	return result;
 }
