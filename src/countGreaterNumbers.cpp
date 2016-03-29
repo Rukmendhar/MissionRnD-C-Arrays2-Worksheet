@@ -21,5 +21,36 @@ struct transaction {
 };
 
 int countGreaterNumbers(struct transaction *Arr, int len, char *date) {
-	return -1;
+	
+	int year[5];
+	int month[5];
+	int adate[5];
+	int ryear;
+	int rmonth;
+	int rdate;
+	int index,count=0,res=0;
+
+	ryear = ((date[6] - '0') * 1000) + ((date[7] - '0') * 100) + ((date[8] - '0') * 10) + (date[9] - '0');
+	rmonth = ((date[3] - '0') * 10) + (date[4] - '0');
+	rdate = ((date[0] - '0') * 10) + (date[1] - '0');
+
+	for (index = 0; index < len; index++)
+	{
+		year[index] = (((Arr[index].date[6] - '0') * 1000) + ((Arr[index].date[7] - '0') * 100) + ((Arr[index].date[8] - '0') * 10) + (Arr[index].date[9] - '0'));
+		month[index] = (((Arr[index].date[3] - '0') * 10) + (Arr[index].date[4] - '0'));
+		adate[index] = (((Arr[index].date[0] - '0') * 10) + (Arr[index].date[1] - '0'));
+	}
+
+	for (index = 0; index < len; index++)
+	{
+		if ((year[index] == ryear) && (month[index] == rmonth) && (adate[index] == rdate))
+		{
+			res = len - (index + 1);
+		}
+	}
+			
+	
+
+	
+	return res;
 }
