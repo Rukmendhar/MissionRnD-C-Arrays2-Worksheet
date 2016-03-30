@@ -25,6 +25,9 @@ struct transaction {
 struct transaction * mergeSortedArrays(struct transaction *A, int ALen, struct transaction *B, int BLen) {
 	
 	struct transaction *result = NULL;
+	
+	if (A == NULL || B == NULL)
+		return NULL;
 
 	result = (struct transaction*)malloc((sizeof(struct transaction))*(ALen+BLen));
 	int ayear[10], amonth[10], adate[10], byear[10], bmonth[10], bdate[10];
@@ -46,26 +49,40 @@ struct transaction * mergeSortedArrays(struct transaction *A, int ALen, struct t
 
 	while (i < ALen && j < BLen)
 	{
-		if ((ayear>byear) || ((ayear == byear) && amonth > bmonth) || ((ayear == byear) && (amonth == bmonth) && (adate > bdate)))
+		if ((ayear[i] == byear[j]) && (amonth[i] == bmonth[j]) && (adate[i] == bdate[j]))
 		{
-			result[k++] = B[j];
+			result[k] = A[i];
+			k++;
+			result[k] = B[j];
+			k++;
+			i++;
+			j++;
+
+		}
+		else if ((ayear[i]>byear[j]) || ((ayear[i] == byear[j]) && amonth[i] > bmonth[j]) || ((ayear[i] == byear[j]) && (amonth[i] == bmonth[j]) && (adate[i] > bdate[j])))
+		{
+			result[k] = B[j];
+			k++;
 			j++;
 		}
 		else
 		{
-			result[k++] = A[i];
+			result[k] = A[i];
+			k++;
 			i++;
 		}
 	}
 	while (i < ALen)
 	{
-		result[k++] = A[i];
+		result[k] = A[i];
+		k++;
 		i++;
 
 	}
 	while (j < BLen)
 	{
-		result[k++] = B[j];
+		result[k] = B[j];
+		k++;
 		j++;
 	}
 
